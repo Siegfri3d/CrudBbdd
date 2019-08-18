@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/et_nombre" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn_insertar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="62dp"
@@ -53,17 +53,17 @@
         app:layout_constraintTop_toBottomOf="@+id/et_apellido" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btn_buscar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="69dp"
         android:text="@string/btn_buscar"
-        app:layout_constraintEnd_toEndOf="@+id/button4"
-        app:layout_constraintStart_toStartOf="@+id/button4"
+        app:layout_constraintEnd_toEndOf="@+id/btn_borrar"
+        app:layout_constraintStart_toStartOf="@+id/btn_borrar"
         app:layout_constraintTop_toBottomOf="@+id/et_apellido" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btn_actualizar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="62dp"
@@ -73,11 +73,11 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btn_borrar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="57dp"
         android:text="@string/btn_borrar"
-        app:layout_constraintBaseline_toBaselineOf="@+id/button3"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btn_actualizar"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
