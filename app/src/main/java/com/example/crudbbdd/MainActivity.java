@@ -1,8 +1,10 @@
 package com.example.crudbbdd;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,13 +47,59 @@ public class MainActivity extends AppCompatActivity {
 
                 // Insert the new row, returning the primary key value of the new row
                 long newRowId = db.insert(EstructuraBBDD.TABLE_NAME, null, values);
+                cleanComponets();
                 Toast.makeText(getApplicationContext(), "Se guardo el registro con " + newRowId, Toast.LENGTH_SHORT).show();
             }
         });
 
-        btn_borrar.setOnClickListener(new View.OnClickListener() {
+        btn_buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SQLiteDatabase db = helper.getReadableDatabase();
+
+                // Define a projection that specifies which columns from the database
+                // you will actually use after this query.
+                String[] projection = {
+                        //BaseColumns._ID,
+                        EstructuraBBDD.COLUMN_NAME_NAME,
+                        EstructuraBBDD.COLUMN_NAME_LASTNAME
+                };
+
+                // Filter results WHERE "title" = 'My Title'
+                String selection = EstructuraBBDD.COLUMN_NAME_ID + " = ?";
+                String[] selectionArgs = {et_id.getText().toString()};
+
+                // How you want the results sorted in the resulting Cursor
+                /*String sortOrder =
+                        EstructuraBBDD.COLUMN_NAME_ID + " DESC";*/
+
+                try {
+                    Cursor cursor = db.query(
+                            EstructuraBBDD.TABLE_NAME,   // The table to query
+                            projection,             // The array of columns to return (pass null to get all)
+                            selection,              // The columns for the WHERE clause
+                            selectionArgs,          // The values for the WHERE clause
+                            null,                   // don't group the rows
+                            null,                   // don't filter by row groups
+                            null               // The sort order
+                    );
+                    cursor.moveToFirst();
+                    et_nombre.setText(cursor.getString(0));
+                    et_apellido.setText(cursor.getString(1));
+                    cursor.close();
+
+                   /* List itemIds = new ArrayList<>();
+                    while(cursor.moveToNext()) {
+                        long itemId = cursor.getLong(
+                                cursor.getColumnIndexOrThrow(EstructuraBBDD.));
+                        itemIds.add(itemId);
+                    }
+                    cursor.close();*/
+
+                } catch (Exception e) {
+                    Log.i("Error", "que error");
+                    Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_LONG).show();
+                }
 
             }
         });
@@ -66,8 +114,28 @@ public class MainActivity extends AppCompatActivity {
         btn_borrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                SQLiteDatabase db = helper.getReadableDatabase();
+                // Define 'where' part of query.
+                String selection = EstructuraBBDD.COLUMN_NAME_ID + " LIKE ?";
+                // Specify arguments in placeholder order.
+                String[] selectionArgs = {et_id.getText().toString()};
+                try {
+                    // Issue SQL statement.
+                    int deletedRows = db.delete(EstructuraBBDD.TABLE_NAME, selection, selectionArgs);
+                    Toast.makeText(getApplicationContext(), "Se elimino el ID " + et_id.getText().
+                            toString(), Toast.LENGTH_SHORT).show();
+                    cleanComponets();
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(),
+                            "No se eliminó el registro. " + e, Toast.LENGTH_SHORT).show();
+                }
             }
         });
+    }
+
+    private void cleanComponets() {
+        et_id.setText("");
+        et_nombre.setText("");
+        et_apellido.setText("");
     }
 }
