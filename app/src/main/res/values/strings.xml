@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">CrudBbdd</string>
+    <string name="id">ID</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="btn_insertar">Insertar</string>
+    <string name="btn_buscar">Buscar</string>
+    <string name="btn_actualizar">Actualizar</string>
+    <string name="btn_borrar">Borrar</string>
+</resources>
