@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
                 } catch (Exception e) {
                     Log.i("Error", "que error");
-                    Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "No se encontró el registro. ", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -107,7 +107,27 @@ public class MainActivity extends AppCompatActivity {
         btn_actualizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SQLiteDatabase db = helper.getWritableDatabase();
 
+                // New value for one column
+                ContentValues values = new ContentValues();
+                values.put(EstructuraBBDD.COLUMN_NAME_NAME, et_nombre.getText().toString());
+                values.put(EstructuraBBDD.COLUMN_NAME_LASTNAME, et_apellido.getText().toString());
+
+                // Which row to update, based on the title
+                String selection = EstructuraBBDD.COLUMN_NAME_ID + " LIKE ?";
+                String[] selectionArgs = {et_id.getText().toString()};
+                try {
+                    int count = db.update(
+                            EstructuraBBDD.TABLE_NAME,
+                            values,
+                            selection,
+                            selectionArgs);
+                    Toast.makeText(getApplicationContext(), "Se actualizo el registro", Toast.LENGTH_SHORT).show();
+                    cleanComponets();
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Error al actualizar el registro.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
